@@ -15,7 +15,4 @@ categories = ["web-programming"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-uuid = { version = "1.6.1" , features = ["v4"] }
-
-[dev-dependencies]
-actix-web = { version = "4.4.0" }
+uuid = { version = "1.17.0" , features = ["v4"] }
