@@ -72,6 +72,26 @@ impl MultiPartFormDataBuilder {
         self
     }
 
+    /// Add text with custom content type to multipart/form-data
+    ///
+    /// name is form name
+    ///
+    /// value is form value
+    ///
+    /// content_type is content type
+    ///
+    /// Returns &mut MultiPartFormDataBuilder
+    pub fn with_custom_text(
+        &mut self,
+        name: impl Into<String>,
+        value: impl Into<String>,
+        content_type: impl Into<String>,
+    ) -> &mut MultiPartFormDataBuilder {
+        self.texts
+            .push((name.into(), value.into(), content_type.into()));
+        self
+    }
+
     /// Add file to multipart/form-data
     ///
     /// path is file path
@@ -153,7 +173,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_should_build_multipart_form_with_text() {
+    fn test_should_build_multipart_form() {
         let mut multipart_form_data_builder = MultiPartFormDataBuilder::new();
         multipart_form_data_builder.with_file(
             "tests/sample.png",
@@ -162,6 +182,7 @@ mod tests {
             "sample.png",
         );
         multipart_form_data_builder.with_text("name", "some_name");
+        multipart_form_data_builder.with_custom_text("other_name", "{\"key\": \"value\"}", "application/json");
         let (header, body) = multipart_form_data_builder.build();
 
         assert_eq!(header.0, "Content-Type");
